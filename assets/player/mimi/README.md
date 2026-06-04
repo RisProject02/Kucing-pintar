@@ -1,0 +1,1 @@
+Karakter Utama Mimi
