@@ -27,36 +27,58 @@ const HEROES = {
 // ================= LOGIN =================
 
 class LoginScene extends Phaser.Scene {
-
   constructor() {
     super("LoginScene");
   }
 
   create() {
-
     const W = this.scale.width;
-    const H = this.scale.height;
 
     this.cameras.main.setBackgroundColor("#1a0533");
 
     this.add.text(
-      W/2,
-      100,
+      W / 2,
+      80,
       "🐱 KUCING PINTAR",
       {
-        fontSize: "48px",
+        fontSize: "42px",
+        color: "#ffffff"
+      }
+    ).setOrigin(0.5);
+
+    this.add.text(
+      W / 2,
+      180,
+      "Username : admin",
+      {
+        fontSize: "24px",
+        color: "#ffffff"
+      }
+    ).setOrigin(0.5);
+
+    this.add.text(
+      W / 2,
+      230,
+      "Password : kucing123",
+      {
+        fontSize: "24px",
         color: "#ffffff"
       }
     ).setOrigin(0.5);
 
     const btn = this.add.text(
-      W/2,
-      300,
+      W / 2,
+      350,
       "LOGIN",
       {
         fontSize: "32px",
         backgroundColor: "#7b2fff",
-        padding: 15
+        padding: {
+          left: 20,
+          right: 20,
+          top: 10,
+          bottom: 10
+        }
       }
     )
     .setOrigin(0.5)
@@ -65,28 +87,24 @@ class LoginScene extends Phaser.Scene {
     btn.on("pointerdown", () => {
       this.scene.start("MainMenuScene");
     });
-
   }
-
 }
 
 // ================= MENU =================
 
 class MainMenuScene extends Phaser.Scene {
-
   constructor() {
     super("MainMenuScene");
   }
 
   create() {
-
     const W = this.scale.width;
 
-    this.cameras.main.setBackgroundColor("#0d2b6b");
+    this.cameras.main.setBackgroundColor("#102a5c");
 
     this.add.text(
-      W/2,
-      120,
+      W / 2,
+      100,
       "🐱 KUCING PINTAR",
       {
         fontSize: "50px",
@@ -94,12 +112,22 @@ class MainMenuScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
+    this.add.text(
+      W / 2,
+      170,
+      "Petualangan Dunia Kucing",
+      {
+        fontSize: "24px",
+        color: "#ffd700"
+      }
+    ).setOrigin(0.5);
+
     const playBtn = this.add.text(
-      W/2,
+      W / 2,
       300,
       "▶ MAINKAN",
       {
-        fontSize: "32px",
+        fontSize: "34px",
         backgroundColor: "#7b2fff",
         padding: 15
       }
@@ -110,28 +138,24 @@ class MainMenuScene extends Phaser.Scene {
     playBtn.on("pointerdown", () => {
       this.scene.start("HeroSelectScene");
     });
-
   }
-
 }
 
 // ================= PILIH HERO =================
 
 class HeroSelectScene extends Phaser.Scene {
-
   constructor() {
     super("HeroSelectScene");
   }
 
   create() {
-
     const W = this.scale.width;
 
     this.cameras.main.setBackgroundColor("#111827");
 
     this.add.text(
-      W/2,
-      80,
+      W / 2,
+      60,
       "PILIH HERO",
       {
         fontSize: "42px",
@@ -139,18 +163,18 @@ class HeroSelectScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    const heroes = ["Mimi","Kuro","Snow"];
+    const heroes = ["Mimi", "Kuro", "Snow"];
 
-    heroes.forEach((name,index)=>{
+    heroes.forEach((name, index) => {
 
       const hero = HEROES[name];
 
       const btn = this.add.text(
         180 + (index * 260),
-        280,
-        hero.emoji + "\n" + name,
+        260,
+        hero.emoji + "\n\n" + name,
         {
-          fontSize: "60px",
+          fontSize: "50px",
           align: "center",
           backgroundColor: "#333333",
           padding: 20
@@ -159,7 +183,7 @@ class HeroSelectScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive();
 
-      btn.on("pointerdown", ()=>{
+      btn.on("pointerdown", () => {
 
         localStorage.setItem(
           "selectedHero",
@@ -173,15 +197,12 @@ class HeroSelectScene extends Phaser.Scene {
       });
 
     });
-
   }
-
 }
 
 // ================= PROFIL HERO =================
 
 class HeroProfileScene extends Phaser.Scene {
-
   constructor() {
     super("HeroProfileScene");
   }
@@ -199,7 +220,7 @@ class HeroProfileScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#0f172a");
 
     this.add.text(
-      W/2,
+      W / 2,
       100,
       hero.emoji,
       {
@@ -208,57 +229,54 @@ class HeroProfileScene extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.add.text(
-      W/2,
+      W / 2,
       220,
       heroName,
       {
-        fontSize: "48px",
+        fontSize: "42px",
         color: "#ffffff"
       }
     ).setOrigin(0.5);
 
     this.add.text(
-      W/2,
-      290,
-      "Type : " + hero.type,
+      W / 2,
+      360,
+
+      "Type : " + hero.type +
+      "\nSpeed : " + hero.speed +
+      "\nEnergy : " + hero.energy +
+      "\n\nSkill : " + hero.skill,
+
       {
         fontSize: "28px",
-        color: "#ffffff"
+        color: "#ffffff",
+        align: "center"
       }
+
     ).setOrigin(0.5);
 
-    this.add.text(
-      W/2,
-      340,
-      "Speed : " + hero.speed,
+    const startBtn = this.add.text(
+      W / 2,
+      540,
+      "MULAI PETUALANGAN",
       {
-        fontSize: "28px",
-        color: "#ffffff"
+        fontSize: "26px",
+        backgroundColor: "#16a34a",
+        padding: 15
       }
-    ).setOrigin(0.5);
+    )
+    .setOrigin(0.5)
+    .setInteractive();
 
-    this.add.text(
-      W/2,
-      390,
-      "Energy : " + hero.energy,
-      {
-        fontSize: "28px",
-        color: "#ffffff"
-      }
-    ).setOrigin(0.5);
+    startBtn.on("pointerdown", () => {
 
-    this.add.text(
-      W/2,
-      450,
-      "Skill : " + hero.skill,
-      {
-        fontSize: "28px",
-        color: "#FFD700"
-      }
-    ).setOrigin(0.5);
+      alert(
+        "Map Petualangan akan dibuat berikutnya!"
+      );
+
+    });
 
   }
-
 }
 
 // ================= CONFIG =================
