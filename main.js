@@ -82,7 +82,7 @@ class MainMenuScene extends Phaser.Scene {
 
     const goTo=(key)=>{ this.cameras.main.fadeOut(300,0,0,0); this.cameras.main.once('camerafadeoutcomplete',()=>this.scene.start(key)); };
     const defs=[
-      {label:'▶  Mainkan',     cn:0x7b2fff,ch:0x9b4fff, action:()=>goTo('VillageScene')},
+      {label:'▶  Mainkan',     cn:0x7b2fff,ch:0x9b4fff, action:()=>goTo('Level1')},
       {label:'🦸  Pilih Hero',  cn:0xc0392b,ch:0xe74c3c, action:()=>goTo('HeroSelect')},
       {label:'ℹ  Tentang Game',cn:0x16a085,ch:0x1abc9c, action:null}
     ];
@@ -324,7 +324,7 @@ class Level1Scene extends Phaser.Scene {
     this.player=this.physics.add.sprite(80,GY-34,'player_tex');
     this.player.setCollideWorldBounds(true);
     this.player.setGravityY(300);
-    this.player.body.setMaxVelocityY(700);
+    this.player.setMaxVelocityY(700);
     this.player.setDepth(5);
     // Emoji face on top of player
     this.playerFace=this.add.text(0,0,this.hero.emoji,{fontSize:'26px'}).setOrigin(0.5).setDepth(6);
@@ -346,10 +346,6 @@ class Level1Scene extends Phaser.Scene {
       right:Phaser.Input.Keyboard.KeyCodes.D
     });
     this.spaceKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-// Tombol jurus
-this.skillKey=this.input.keyboard.addKey(
-Phaser.Input.Keyboard.KeyCodes.F
-);
 
     // ── HUD ─────────────────────────────────────────────────────
     this._touch={left:false,right:false,jump:false};
@@ -395,29 +391,7 @@ Phaser.Input.Keyboard.KeyCodes.F
     // Sync emoji face
     this.playerFace.setPosition(this.player.x, this.player.y-4);
     this.playerFace.setFlipX(this.player.flipX);
-// Jurus tombol F
-if (Phaser.Input.Keyboard.JustDown(this.skillKey)) {
 
-    const bullet = this.add.circle(
-        this.player.x,
-        this.player.y,
-        10,
-        0x00ffff
-    );
-
-    this.physics.add.existing(bullet);
-
-    bullet.body.setAllowGravity(false);
-
-    bullet.body.setVelocityX(
-        this.player.flipX ? -500 : 500
-    );
-
-    this.time.delayedCall(2000, () => {
-        bullet.destroy();
-    });
-
-}
     // HUD update
     this._updateHUD();
   }
@@ -652,90 +626,6 @@ if (Phaser.Input.Keyboard.JustDown(this.skillKey)) {
     zone.on('pointerdown',()=>onClick());
   }
 }
-class VillageScene extends Phaser.Scene {
-
-  constructor(){
-    super({key:'VillageScene'});
-  }
-
-  create(){
-
-    const W=this.scale.width;
-    const H=this.scale.height;
-
-    this.cameras.main.setBackgroundColor('#8fd18f');
-
-    this.add.text(
-      W/2,
-      40,
-      '🏡 Desa Kucing',
-      {
-        fontSize:'32px',
-        color:'#000'
-      }
-    ).setOrigin(0.5);
-
-    // Rumah
-    this.add.text(200,150,'🏠',{fontSize:'60px'});
-    this.add.text(600,200,'🏠',{fontSize:'60px'});
-    this.add.text(350,400,'🏠',{fontSize:'60px'});
-
-    // Pohon
-    this.add.text(120,300,'🌳',{fontSize:'50px'});
-    this.add.text(700,350,'🌳',{fontSize:'50px'});
-    this.add.text(500,120,'🌳',{fontSize:'50px'});
-
-    // NPC
-    this.npc=this.add.text(
-      500,
-      280,
-      '🐱',
-      {
-        fontSize:'40px'
-      }
-    );
-
-    // Player
-    this.player=this.add.text(
-      450,
-      500,
-      '😼',
-      {
-        fontSize:'40px'
-      }
-    );
-
-    this.cursors=
-      this.input.keyboard.createCursorKeys();
-
-  }
-
-  update(){
-
-    const speed=4;
-
-    if(this.cursors.left.isDown){
-      this.player.x-=speed;
-    }
-
-    if(this.cursors.right.isDown){
-      this.player.x+=speed;
-    }
-
-    if(this.cursors.up.isDown){
-      this.player.y-=speed;
-    }
-
-    if(this.cursors.down.isDown){
-      this.player.y+=speed;
-    }
-if(this.player.x > 500){
-    alert('Masuk Level 1');
-    this.scene.start('Level1');
-}
-  }
-
-}
 
 // ═══════════════════════════════════════════════════════════════
 //  GAME CONFIG
@@ -745,16 +635,11 @@ const config = {
   width: 900,
   height: 600,
   backgroundColor: '#1a0533',
-  
-hysics: {
+  physics: {
     default: 'arcade',
     arcade: { gravity: { y: 600 }, debug: false }
-  },scene: [
-  MainMenuScene,
-  HeroSelectScene,
-  VillageScene,
-  Level1Scene
-],
+  },
+  scene: [MainMenuScene, HeroSelectScene, Level1Scene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
